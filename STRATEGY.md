@@ -58,8 +58,10 @@ yang sama dengan harness (fill di open bar berikutnya, fee 4 bps, slippage
 - EMA-cross 8/21: −$127 s.d. −$151 (terlalu banyak whipsaw pada noise 1-menit).
 - Bollinger/RSI mean-reversion: −$62 s.d. −$97.
 - Donchian 60 + trailing 50 + TP 300, ukuran 25–35%: +$3 s.d. +$7.
-- Varian terpilih (n=60, trail 50, TP 300, 35%, RSI ≤ 70, max hold 120):
-  sekitar **+$7,3** pada backtest offline, 10 trade, max drawdown ~0,5%.
+- Varian terpilih (n=60, trail 50, TP 300, 35%, RSI ≤ 70, RSI exit > 75,
+  max hold 120): **+$7,88** pada grade-local, 12 trade, win rate 66,7%,
+  max drawdown 0,40%, guardrails terpenuhi, L1 regrade reproduced byte for
+  byte. Angka final grade-local tercantum di laporan build.
   Sensitivitas: sebagian besar tetangga parameter tetap positif (n=45: +$1,0;
   n=90: +$1,4; trail 60: +$5,9; trail 80: +$4,8; TP 400: +$5,3; ukuran 20%:
   +$4,6; ukuran 40%: +$8,1). Dev window sendiri adalah hari turun (−400 bps
