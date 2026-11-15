@@ -13,6 +13,9 @@
 //     short breakout trades affordable at all.
 //   - Exit, the whole position, whichever comes first:
 //       * take profit: the position is worth 300 bps over its cost;
+//       * overbought: the 14-bar RSI rises above 75 while holding, so the bot
+//         banks the move instead of waiting for the trailing stop to fire
+//         after the reversal;
 //       * trailing stop: the close falls 50 bps below the highest close seen
 //         since the entry;
 //       * stale: the position has been held 120 bars without either of the
@@ -40,6 +43,8 @@ const STAKE_PCT = 35n;
 const TAKE_PROFIT_BPS = 300;
 /** Trailing stop, in bps below the highest close since the entry. */
 const TRAIL_BPS = 50;
+/** Overbought exit: sell while holding when the 14-bar RSI rises above this. */
+const RSI_EXIT_ABOVE = 75;
 /** Stale exit: sell after this many bars held with no other exit firing. */
 const MAX_HOLD_BARS = 120;
 /** Slippage cap on every order, in bps past the deciding close. */
@@ -109,7 +114,8 @@ await runBars({
       const value = state.value(SYMBOL, held.qty);
       const takeProfit = value * 10000n >= held.cost * BigInt(10000 + TAKE_PROFIT_BPS);
       const trailed = BigInt(Math.trunc(closeNum)) * 10000n <= BigInt(Math.trunc(peakClose)) * BigInt(10000 - TRAIL_BPS);
-      if (takeProfit || trailed || holdBars >= MAX_HOLD_BARS) {
+      const overbought = rsi() !== null && rsi()! > RSI_EXIT_ABOVE;
+      if (takeProfit || trailed || overbought || holdBars >= MAX_HOLD_BARS) {
         peakClose = 0;
         holdBars = 0;
         const sell: SellInput = { side: 'sell', symbol: SYMBOL, qty: held.qty, max_slippage_bps: MAX_SLIPPAGE_BPS };

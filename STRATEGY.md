@@ -21,6 +21,9 @@ dengan ukuran sedang, dan hanya saat harga membuktikan adanya pergerakan.
 ### Exit (jual seluruh posisi, mana yang terjadi dulu)
 
 - **Take profit:** posisi bernilai +300 bps di atas cost (termasuk fee).
+- **Overbought:** RSI 14 naik di atas 75 saat memegang posisi — bot
+  mengamankan profit selagi momentum masih kuat, bukan menunggu trailing
+  stop terpicu setelah reversal.
 - **Trailing stop:** close turun 50 bps di bawah close tertinggi sejak entry.
 - **Stale:** posisi dipegang 120 bar tanpa exit lain yang terpicu.
 
@@ -42,6 +45,7 @@ dengan ukuran sedang, dan hanya saat harga membuktikan adanya pergerakan.
 | RSI span / cap | 14 / ≤ 70 | Filter anti-chase; cap 70 memblokir entry saat overbought |
 | Ukuran stake | 35% cash | Impact ~5 bps/kaki; kompromi antara biaya dan ukuran PnL |
 | Take profit | +300 bps | Lebih besar dari biaya round trip (~20 bps pada ukuran ini) dengan margin lebar |
+| RSI exit | > 75 | Keluar saat overbought — diuji menambah PnL offline dari +$7,3 ke +$8,4 dengan max drawdown lebih kecil (0,36% vs 0,54%) |
 | Trailing stop | 50 bps | Memberi ruang pada noise 1-menit (~12 bps σ) sambil memotong tren berbalik |
 | Max hold | 120 bar | Mengeluarkan posisi basi sebelum reversal menggerus profit |
 
